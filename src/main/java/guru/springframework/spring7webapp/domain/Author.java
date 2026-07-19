@@ -1,9 +1,9 @@
 package guru.springframework.spring7webapp.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Author {
@@ -12,7 +12,18 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String primerNombre;
-    private String apellido;
+    private String primerApellido;
+
+    @ManyToMany(mappedBy = "authors")
+    Set<Book> books;
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 
     public Long getId() {
         return id;
@@ -30,12 +41,33 @@ public class Author {
         this.primerNombre = primerNombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getPrimerApellido() {
+        return primerApellido;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
     }
 
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", primerNombre='" + primerNombre + '\'' +
+                ", primerApellido='" + primerApellido + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Author author = (Author) o;
+        return Objects.equals(getId(), author.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }

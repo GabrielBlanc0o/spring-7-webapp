@@ -1,9 +1,10 @@
 package guru.springframework.spring7webapp.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Objects;
+import java.util.Set;
+
 
 @Entity
 public class Book {
@@ -11,8 +12,22 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String titulo;
-    private String isbn;
+    private String name;
+    private int isbn;
+
+    @ManyToMany
+    @JoinTable(name = "author_book" , joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name="author_id"))
+
+    Set<Author> authors;
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
 
     public Long getId() {
         return id;
@@ -22,21 +37,41 @@ public class Book {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getName() {
+        return name;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getIsbn() {
+    public int getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(int isbn) {
         this.isbn = isbn;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isbn=" + isbn +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+        return Objects.equals(getId(), book.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }
