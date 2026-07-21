@@ -42,6 +42,10 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>     <!-- consola  web h2 base de datos -->
+            <artifactId>spring-boot-h2console</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

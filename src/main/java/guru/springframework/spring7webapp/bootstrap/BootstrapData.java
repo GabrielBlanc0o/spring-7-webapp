@@ -35,42 +35,48 @@ public class BootstrapData implements CommandLineRunner {
         ddd.setName("Domain Driver Design");
         ddd.setIsbn("123456");
 
-        Publisher ccc = new Publisher();
-        ccc.setPublisherName("Gabriel");
-        ccc.setAddress("Calle 21 22 22");
-        ccc.setCity("Bogota");
-        ccc.setState("Cundinamarca");
-        ccc.setZip("110111");
+        Author rod = new Author();
+        rod.setPrimerNombre("Rod");
+        rod.setPrimerApellido("Johnson");
+
+        Book noEJB = new Book();
+        noEJB.setName("J2EE Development without EJB");
+        noEJB.setIsbn("54757585");
 
         Author ericGuardado = authorRepository.save(eric);
         Book dddGuardado = bookRepository.save(ddd);
-        Publisher cccGuardado = publisherRepository.save(ccc);
-
-        Author rod = new Author();
-        eric.setPrimerNombre("Rod");
-        eric.setPrimerApellido("Johnson");
-
-        Book noEJB = new Book();
-        ddd.setName("J2EE Development without EJB");
-        ddd.setIsbn("54757585");
 
         //asociacion
         Author rodGuardado = authorRepository.save(rod);
         Book noEJBGuardado = bookRepository.save(noEJB);
 
-
+        // persistencia de autor a libro
         ericGuardado.getBooks().add(dddGuardado);
         rodGuardado.getBooks().add(noEJBGuardado);
 
-        // persistencia h2
+        // persistencia de libro a autor
+        dddGuardado.getAuthors().add(ericGuardado);
+        noEJBGuardado.getAuthors().add(rodGuardado);
+
+        Publisher ccc = new Publisher();
+        ccc.setPublisherName("Gabriel");
+        ccc.setAddress("Calle 21 22 22");
+        Publisher savedPublisher = publisherRepository.save(ccc);
+
+        //asignar publicador a libro
+        dddGuardado.setPublisher(savedPublisher);
+        noEJBGuardado.setPublisher(savedPublisher);
+
+        // persistencia autor y de libro
         authorRepository.save(ericGuardado);
         authorRepository.save(rodGuardado);
-        publisherRepository.save(cccGuardado);
-
+        bookRepository.save(dddGuardado);
+        bookRepository.save(noEJBGuardado);
 
         System.out.println("In bootstrap");
         System.out.println("Cantidad de autor: " + authorRepository.count());
         System.out.println("Cantidad libro: " + bookRepository.count());
+
         System.out.println("Cantidad publisher: " + publisherRepository.count());
     }
 }
