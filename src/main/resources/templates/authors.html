@@ -6,18 +6,18 @@
     <title>Spring Framework</title>
 </head>
 <body>
-<h1> Book List</h1>
+<h1> Author List</h1>
 
 <table>
     <tr>
         <th> ID </th>
-        <th> Title </th>
-        <th> Publisher </th>
+        <th> First Name </th>
+        <th> LastName </th>
     </tr>
-    <tr th:each="book : ${books}">
-        <td th:text ="${book.id}"> 123 </td>
-        <td th:text ="${book.name}" > Spring in action </td>
-        <td th:text ="${book.publisher.publisherName}" > Wrox </td>
+    <tr th:each="Author : ${authors}">
+        <td th:text ="${Author.id}"> 123 </td>
+        <td th:text ="${Author.primerNombre}" > Spring in action </td>
+        <td th:text ="${Author.primerApellido}" > Wrox </td>
     </tr>
 </table>
 
